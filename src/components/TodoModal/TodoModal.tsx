@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import cn from 'classnames';
 
 import { Loader } from '../Loader';
 import { getUser } from '../../api';
 
 import { User } from '../../types/User';
 import { Todo } from '../../types/Todo';
+
+import cn from 'classnames';
 
 type Props = {
   currentTodo: Todo | null;

@@ -1,8 +1,4 @@
-/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-
-import 'bulma/css/bulma.css';
-import '@fortawesome/fontawesome-free/css/all.css';
 
 import { TodoList } from './components/TodoList';
 import { TodoFilter } from './components/TodoFilter';
@@ -13,6 +9,9 @@ import { getTodos } from './api';
 import { filterTodosByRule } from './services/service';
 
 import { Todo } from './types/Todo';
+
+import 'bulma/css/bulma.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);

@@ -1,7 +1,8 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { Todo } from '../../types/Todo';
+
+import cn from 'classnames';
 
 type Props = {
   todos: Todo[];
