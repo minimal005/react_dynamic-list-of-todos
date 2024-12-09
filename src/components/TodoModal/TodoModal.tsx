@@ -11,7 +11,7 @@ import cn from 'classnames';
 type Props = {
   currentTodo: Todo | null;
   selectedUserId: number | null;
-  modalLoading: (v: boolean) => void;
+  modalLoading: (isLoading: boolean) => void;
 };
 
 export const TodoModal: React.FC<Props> = ({

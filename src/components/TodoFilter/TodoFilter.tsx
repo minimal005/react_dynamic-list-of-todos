@@ -1,10 +1,11 @@
 import React from 'react';
+import { FilterRules } from '../../types/FilterField';
 
 type Props = {
   query: string;
-  rule: string;
-  setQuery: (v: string) => void;
-  chooseRule: (v: string) => void;
+  rule: FilterRules;
+  setQuery: (query: string) => void;
+  chooseRule: (rule: FilterRules) => void;
 };
 
 export const TodoFilter: React.FC<Props> = ({
@@ -14,7 +15,7 @@ export const TodoFilter: React.FC<Props> = ({
   chooseRule,
 }) => {
   const reset = () => {
-    chooseRule('all');
+    chooseRule(FilterRules.ALL);
     setQuery('');
   };
 
@@ -25,11 +26,11 @@ export const TodoFilter: React.FC<Props> = ({
           <select
             data-cy="statusSelect"
             value={rule}
-            onChange={event => chooseRule(event.target.value)}
+            onChange={event => chooseRule(event.target.value as FilterRules)}
           >
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
+            <option value={FilterRules.ALL}>All</option>
+            <option value={FilterRules.ACTIVE}>Active</option>
+            <option value={FilterRules.COMPLETED}>Completed</option>
           </select>
         </span>
       </p>
@@ -47,7 +48,7 @@ export const TodoFilter: React.FC<Props> = ({
           <i className="fas fa-magnifying-glass" />
         </span>
 
-        <span className="icon is-right" style={{ pointerEvents: 'all' }}>
+        <span className="icon is-right pointerEvents">
           {query && (
             <button
               data-cy="clearSearchButton"

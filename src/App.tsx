@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { TodoList } from './components/TodoList';
 import { TodoFilter } from './components/TodoFilter';
@@ -6,8 +6,9 @@ import { TodoModal } from './components/TodoModal';
 import { Loader } from './components/Loader';
 
 import { getTodos } from './api';
-import { filterTodosByRule } from './services/service';
+import { filterTodosByRule, findTodosByQuery } from './services/service';
 
+import { FilterRules } from './types/FilterField';
 import { Todo } from './types/Todo';
 
 import 'bulma/css/bulma.css';
@@ -15,8 +16,8 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [query, setQuery] = useState<string>('');
-  const [rule, setRule] = useState('all');
+  const [query, setQuery] = useState('');
+  const [rule, setRule] = useState<FilterRules>(FilterRules.ALL);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isModalLoading, setIsModalLoading] = useState(false);
@@ -26,15 +27,23 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     getTodos()
-      .then(res =>
-        res.filter(todo =>
-          todo.title.toLowerCase().includes(query?.toLowerCase()),
-        ),
-      )
-      .then(res => filterTodosByRule(res, rule))
       .then(setTodos)
       .finally(() => setIsLoading(false));
-  }, [query, rule]);
+  }, []);
+
+  const filteredTodos = useMemo(() => {
+    const findTodos = findTodosByQuery(todos, query);
+
+    const filterByRule = filterTodosByRule(findTodos, rule);
+
+    return filterByRule;
+  }, [todos, query, rule]);
+
+  const handleClick = useCallback((todo: Todo) => {
+    setIsModalLoading(true);
+    setSelectedUserId(todo.userId);
+    setSelectedTodo(todo);
+  }, []);
 
   return (
     <>
@@ -55,12 +64,7 @@ export const App: React.FC = () => {
             <div className="block">
               {isLoading && <Loader />}
               {!isLoading && (
-                <TodoList
-                  todos={todos}
-                  modalLoading={setIsModalLoading}
-                  getUser={setSelectedUserId}
-                  selectedTodo={setSelectedTodo}
-                />
+                <TodoList todos={filteredTodos} handleClick={handleClick} />
               )}
             </div>
           </div>
