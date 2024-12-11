@@ -11,13 +11,13 @@ import cn from 'classnames';
 type Props = {
   currentTodo: Todo | null;
   selectedUserId: number | null;
-  modalLoading: (isLoading: boolean) => void;
+  setSelectedTodo: (todo: Todo | null) => void;
 };
 
 export const TodoModal: React.FC<Props> = ({
   currentTodo,
   selectedUserId,
-  modalLoading,
+  setSelectedTodo,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
@@ -47,7 +47,7 @@ export const TodoModal: React.FC<Props> = ({
             </div>
 
             <button
-              onClick={() => modalLoading(false)}
+              onClick={() => setSelectedTodo(null)}
               type="button"
               className="delete"
               data-cy="modal-close"

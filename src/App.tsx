@@ -20,7 +20,6 @@ export const App: React.FC = () => {
   const [rule, setRule] = useState<FilterRules>(FilterRules.ALL);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalLoading, setIsModalLoading] = useState(false);
 
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
@@ -40,7 +39,6 @@ export const App: React.FC = () => {
   }, [todos, query, rule]);
 
   const handleClick = useCallback((todo: Todo) => {
-    setIsModalLoading(true);
     setSelectedUserId(todo.userId);
     setSelectedTodo(todo);
   }, []);
@@ -71,10 +69,10 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      {isModalLoading && (
+      {selectedTodo && (
         <TodoModal
-          modalLoading={setIsModalLoading}
           currentTodo={selectedTodo}
+          setSelectedTodo={setSelectedTodo}
           selectedUserId={selectedUserId}
         />
       )}

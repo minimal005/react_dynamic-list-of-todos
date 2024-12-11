@@ -1,13 +1,13 @@
 import React from 'react';
-import { Todo } from '../../types/Todo';
+import { Todo as TodoType } from '../../types/Todo';
 import cn from 'classnames';
 
 type Props = {
-  todo: Todo;
-  handleClick: (todo: Todo) => void;
+  todo: TodoType;
+  handleClick: (todo: TodoType) => void;
 };
 
-export const TodoOne: React.FC<Props> = ({ todo, handleClick }) => {
+export const Todo: React.FC<Props> = ({ todo, handleClick }) => {
   return (
     <tr key={todo.id} data-cy="todo">
       <td className="is-vcentered">{todo.id}</td>
